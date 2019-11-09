@@ -1,7 +1,7 @@
 {
   "name": "hunzhongwen",
   "version": "0.1.0",
-  "description": "Some utilities for chinese flashcard generation",
+  "description": "CLI Chinese card generator for some study.",
   "main": "index.js",
   "author": "Nickolay Ilyushin <nickolay02@inbox.ru>",
   "license": "MIT",
