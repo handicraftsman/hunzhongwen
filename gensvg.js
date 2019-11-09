@@ -50,7 +50,13 @@ function decompose(str) {
 
 function annotate(arr, wordsConfig) {
   let ret = [];
-  arr.filter(a => a).forEach(a => {
+  arr.filter(a => {
+    if (!a) { return false; }
+    if (wordsConfig && wordsConfig[a] && wordsConfig[a].excludeWord) {
+      return false;
+    }
+    return true;
+  }).forEach(a => {
     let def = define(a, wordsConfig, true);
     if (def) {
       let d = def.definition
@@ -71,14 +77,14 @@ export default function({ data, meaning, words }) {
   return render(
     <svg xmlns='http://www.w3.org/2000/svg' xmlnsXlink='http://www.w3.org/1999/xlink' width={config.width} height={config.height}>
       <rect width={config.width} height={config.height} stroke='#123456' strokeWidth={2} fill='white' />
-      <line x1={12} y1={4} x2={12} y2={26} style={{stroke: 'gray', strokeWidth: 1}} />
-      <text x={16} y={24} fontSize={24} fontFamily={"Noto Serif CJK SC"}>{data.sentence}</text>
-      <text x={16} y={38} fontSize={10} fontFamily={"Noto Serif"}>{meaning}</text>
+      <line x1={12} y1={26-18} x2={12} y2={26} style={{stroke: 'gray', strokeWidth: 1}} />
+      <text x={16} y={24} fontSize={18} fontFamily={"Noto Serif CJK SC"}>{data.sentence}</text>
+      <text x={16} y={38} fontSize={10} fontFamily={"Noto Serif"} fill="#606060">{meaning}</text>
       {data.meanings.map(e => {
         if (!e.word) { return null; }
         e.word = e.word.trim();
         let worddata = words ? words[e.word] : null;
-        if ('.!?。！？［］[] /'.includes(e.word) || e.word == '' || (worddata && worddata.excludeWord)) {
+        if ('.,!?。，！？［］[] /'.includes(e.word) || e.word == '' || (worddata && worddata.excludeWord)) {
           return null;
         }
         let elem = <text x={16} y={i} fontSize={10} fontFamily={"Noto Serif CJK SC"}>{e.word}</text>;

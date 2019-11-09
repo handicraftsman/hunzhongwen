@@ -7,6 +7,18 @@ export default class LookupManager {
   lookup(str, wordsConfig) {
     let words = hanzi.segment(str);
     let out = words.map(word => {
+      if (wordsConfig && wordsConfig[word] && wordsConfig[word].define) {
+        return {
+          word,
+          defs: [
+            {
+              simplified: word,
+              pinyin: prettify(wordsConfig[word].pinyin || '???'),
+              definition: wordsConfig[word].define,
+            },
+          ],
+        };
+      }
       let defs = hanzi.definitionLookup(word);
       if (!defs) { return { word, defs: [] }; }
         defs = defs.map(def => {
