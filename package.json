@@ -1,0 +1,32 @@
+{
+  "name": "hunzhongwen",
+  "version": "0.1.0",
+  "description": "Some utilities for chinese flashcard generation",
+  "main": "index.js",
+  "author": "Nickolay Ilyushin <nickolay02@inbox.ru>",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/polyfill": "^7.7.0",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-react": "^7.7.0",
+    "babel-loader": "^8.0.6",
+    "commander": "^4.0.0",
+    "hanzi": "^2.1.5",
+    "officegen": "^0.6.3",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "shebang-loader": "^0.0.1",
+    "svgx": "^2.1.0",
+    "svpng": "^1.1.1",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "bin": {
+    "hunzhongwen": "launch-hunzhongwen.js"
+  },
+  "scripts": {
+    "postinstall": "webpack-cli index.js --config webpack.config.js --progress && chmod +x launch-hunzhongwen.js && sed -i '1i #!/usr/bin/env node\n' launch-hunzhongwen.js"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "width": 370,
+  "height": 265,
+  "filter": [
+    "radical",
+    "surname",
+    "see [^a-zA-Z0-9]+",
+    "see also [^a-zA-Z0-9]+",
+    "character",
+    "archaic",
+    "ethnic",
+    "variant",
+    "abbr\\."
+  ],
+  "replace": [
+    ["marker(s)?", "MAR$1"],
+    ["plural(s)?", "PL$1"],
+    ["pronoun(s)?", "PR$1"],
+    ["noun(s)?", "N$1"],
+    ["classifier(s)?", "CLA$1"],
+    ["numeral-classifier(s)?", "NUM-CLA$1"],
+    [
+      "particle indicating that a previously asked question is to be applied to the preceding word.*",
+      "\"question redirect particle\""
+    ],
+    [
+      "you \\(informal.+\\)",
+      "you (informal)"
+    ]
+  ]
+}

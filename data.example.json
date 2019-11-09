@@ -1,0 +1,14 @@
+[
+  {
+    "sentence": "我 去 阅览室 看 书 和 画报",
+    "meaning": "Я пошел в читальный зал почитать книги и журналы.",
+    "words": {
+      "我": { "excludeWord": true },
+      "去": { "excludeWord": true },
+      "看": { "include": [ "read" ] },
+      "书": { "include": [ "book" ] },
+      "和": { "include": [ "and" ], "exclude": [ "Taiwan" ] },
+      "画报": { "include": [ "magazine" ] }
+    }
+  }
+]

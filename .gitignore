@@ -1,0 +1,9 @@
+*.svg
+*.png
+*.docx
+node_modules
+fonts
+data.json
+data.old.json
+launch-hunzhongwen.js
+*.log
