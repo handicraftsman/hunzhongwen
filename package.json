@@ -1,6 +1,6 @@
 {
   "name": "hunzhongwen",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "CLI Chinese card generator for some study.",
   "main": "index.js",
   "author": "Nickolay Ilyushin <nickolay02@inbox.ru>",

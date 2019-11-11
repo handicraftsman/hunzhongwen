@@ -57,6 +57,11 @@ function annotate(arr, wordsConfig) {
     }
     return true;
   }).forEach(a => {
+    let rdef = hanzi.getRadicalMeaning(a);
+    if (rdef != 'N/A') {
+      ret = [ ...ret, '< ' + a + ' → ' + rdef + ' >' ];
+      return;
+    }
     let def = define(a, wordsConfig, true);
     if (def) {
       let d = def.definition
@@ -81,14 +86,14 @@ export default function({ data, meaning, words }) {
       <text x={16} y={24} fontSize={18} fontFamily={"Noto Serif CJK SC"}>{data.sentence}</text>
       <text x={16} y={38} fontSize={10} fontFamily={"Noto Serif"} fill="#606060">{meaning}</text>
       {data.meanings.map(e => {
-        if (!e.word) { return null; }
+        if (!e.word || e.noDecompose) { return null; }
         e.word = e.word.trim();
         let worddata = words ? words[e.word] : null;
-        if ('.,!?。，！？［］[] /'.includes(e.word) || e.word == '' || (worddata && worddata.excludeWord)) {
+        if ('.,!?。，！？［］[] /|\\（）()'.includes(e.word) || e.word == '' || (worddata && worddata.excludeWord)) {
           return null;
         }
         let elem = <text x={16} y={i} fontSize={10} fontFamily={"Noto Serif CJK SC"}>{e.word}</text>;
-        let ret = <React.Fragment>
+        let ret = <React.Fragment key={e.word}>
           {elem}
           {e.defs.map((def) => {
             if (def.definition == '<DEL>' || def.definition.trim() == '') {
@@ -103,7 +108,13 @@ export default function({ data, meaning, words }) {
             let d = null;
             let t = null;
             if (e.word.length > 0 && w != e.word) {
-              let a = annotateDefinition(define(w, words));
+              let rdef = hanzi.getRadicalMeaning(w);
+              let a = '';
+              if (rdef != 'N/A') {
+                a = '< ' + w + ' → ' + rdef + ' >';
+              } else {
+                a = annotateDefinition(define(w, words));
+              }
               if (a && a.trim() != '') {
                 d = <text x={24} y={i} fontSize={10} fontFamily={"Noto Serif CJK SC"}>{a}</text>;
                 i += 11;
@@ -114,7 +125,7 @@ export default function({ data, meaning, words }) {
               t = <text x={32} y={i} fontSize={10} fontFamily={"Noto Serif CJK SC"}>{ls.join(' ').trim()}</text>;
               i += 11;
             }
-            return <React.Fragment>{d}{t}</React.Fragment>;
+            return <React.Fragment key={`w${idx}`}>{d}{t}</React.Fragment>;
           })}
           
         </React.Fragment>;

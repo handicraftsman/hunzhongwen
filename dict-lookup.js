@@ -5,8 +5,23 @@ import { checkFilters, replace } from './util';
 
 export default class LookupManager {
   lookup(str, wordsConfig) {
-    let words = hanzi.segment(str);
+    let words = [];
+    str.match(/[^~]+|\~[^\~]+\~/g)
+      .forEach(m => {
+        if (m[0] == '~' && m[m.length - 1] == '~') {
+          words = [ ...words, m ];
+        } else {
+          words = [ ...words, ...hanzi.segment(m) ];
+        }
+      });
+    let sentenceWords = [];
     let out = words.map(word => {
+      if (word[0] == '~' && word[word.length - 1] == '~') {
+        sentenceWords.push(word.slice(1, -1));
+        return { word: word.slice(1, -1), defs: [], noDecompose: true };
+      } else {
+        sentenceWords.push(word);
+      }
       if (wordsConfig && wordsConfig[word] && wordsConfig[word].define) {
         return {
           word,
@@ -44,7 +59,7 @@ export default class LookupManager {
       }
       return { word: defs[0].simplified, defs };
     });
-    return { sentence: words.join(' '), meanings: out };
+    return { sentence: sentenceWords.join(' '), meanings: out };
   }
 
   deduplicate(data) {
